@@ -12,7 +12,7 @@ var inMemoryRisksMap map[string]Risk = map[string]Risk{}
 type RisksRepository interface {
 	CreateRisk(ctx *gin.Context, risk *Risk) (*Risk, error)
 	GetRiskById(ctx *gin.Context, id string) (*Risk, error)
-	GetRisks(ctx *gin.Context) []*Risk
+	GetRisks(ctx *gin.Context) ([]*Risk,error)
 }
 
 type RisksRepositoryImplementation struct{}
@@ -28,15 +28,6 @@ func (repo *RisksRepositoryImplementation) CreateRisk(ctx *gin.Context, risk *Ri
 		errStr := fmt.Sprintf("Risk Already Exisits for ID : %v", risk.Id)
 		fmt.Errorf(errStr)
 		return nil, errors.New(errStr)
-	}
-
-	// basic data sanitization can be performed here
-	risk.sanitize()
-
-	err := risk.isValid()
-	if err != nil {
-		fmt.Errorf("model validation failed : ", err.Error())
-		return nil, err
 	}
 
 	inMemoryRisksMap[risk.Id] = *risk
@@ -58,14 +49,14 @@ func (repo *RisksRepositoryImplementation) GetRiskById(ctx *gin.Context, id stri
 
 }
 
-func (repo *RisksRepositoryImplementation) GetRisks(ctx *gin.Context) []*Risk {
+func (repo *RisksRepositoryImplementation) GetRisks(ctx *gin.Context) ([]*Risk,error) {
 	// Create a slice to hold the Person structs
-	var risks []*Risk
+	var risks []*Risk = []*Risk{}
 
 	// Iterate over the map and append the values (Person structs) to the slice
 	for _, risk := range inMemoryRisksMap {
 		risks = append(risks, &risk)
 	}
 
-	return risks
+	return risks,nil
 }

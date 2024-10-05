@@ -34,23 +34,17 @@ func (controller *RisksControllerImplementation) CreateRisk(ctx *gin.Context) {
 
 	fmt.Println("CreateRiskReq : ", createRiskReq)
 
-	risk, err := controller.service.CreateRisk(ctx, &createRiskReq)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
-	}
-	ctx.JSON(http.StatusCreated, risk)
+	res, _ := controller.service.CreateRisk(ctx, &createRiskReq)
+	ctx.JSON(res.ResponseJson.StatusCode, res)
 }
 
 func (controller *RisksControllerImplementation) GetRiskById(ctx *gin.Context) {
 	id := ctx.Param("id")
-	risk, err := controller.service.GetRiskById(ctx, id)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
-	}
-	ctx.JSON(http.StatusOK, risk)
+	res,_ := controller.service.GetRiskById(ctx, id)
+	ctx.JSON(res.ResponseJson.StatusCode, res)
 }
 
 func (controller *RisksControllerImplementation) GetRisks(ctx *gin.Context) {
-	risks := controller.service.GetRisks(ctx)
-	ctx.JSON(http.StatusOK, risks)
+	res,_ := controller.service.GetRisks(ctx)
+	ctx.JSON(res.ResponseJson.StatusCode, res)
 }

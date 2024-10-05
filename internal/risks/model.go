@@ -31,20 +31,20 @@ func (r *Risk) sanitize() {
 }
 
 func (r *Risk) isValid() error {
-	if len(r.Title) < MIN_TITLE_LEN {
-		return errors.New(fmt.Sprintf("Title must have at least %v characters", MIN_TITLE_LEN))
+	if len(r.Title) < MIN_TITLE_LEN || len(r.Title) > MAX_TITLE_LEN {
+		return fmt.Errorf("title length must be between %v to %v characters", MIN_TITLE_LEN, MAX_TITLE_LEN)
 	}
-	if len(r.Description) < MIN_DESC_LEN {
-		return errors.New(fmt.Sprintf("Description must have at least %v characters", MIN_DESC_LEN))
+	if len(r.Description) < MIN_DESC_LEN || len(r.Description) > MAX_DESC_LEN {
+		return fmt.Errorf("description length must be between %v to %v characters", MIN_DESC_LEN, MAX_DESC_LEN)
 	}
 	if !isValidStatus(r.Status) {
-		return errors.New("Invalid Status: " + string(r.Status))
+		return errors.New("invalid Status: " + string(r.Status))
 	}
 	if len(r.Id) < 1 {
-		return errors.New("Invalid Id: " + r.Id)
+		return errors.New("invalid Id: " + r.Id)
 	}
 	if r.CreatedAt == 0 {
-		return errors.New("Creation Timestamp missing")
+		return errors.New("creation Timestamp missing")
 	}
 
 	return nil
