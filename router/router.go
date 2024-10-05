@@ -8,7 +8,7 @@ import (
 )
 
 func GetRouter() *gin.Engine {
-
+	
 	router := gin.Default()
 
 	// middlewares

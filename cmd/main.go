@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"github.com/akashkrao99/go-sample-http/config"
 	"github.com/akashkrao99/go-sample-http/router"
 )
 
 func main() {
-	fmt.Println("hello")
-	router := router.GetRouter()
+	config.InitializeConfig()
 
-	// Start the server on port 8080
-	router.Run(":8080")
+	router := router.GetRouter()
+	
+	router.Run(config.GetConfig().HttpServerConfig.Port)
 }
