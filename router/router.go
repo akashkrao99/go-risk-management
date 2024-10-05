@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/akashkrao99/go-sample-http/config"
 	"github.com/akashkrao99/go-sample-http/internal/health"
 	"github.com/akashkrao99/go-sample-http/internal/middlewares"
 	"github.com/akashkrao99/go-sample-http/internal/risks"
@@ -13,7 +14,7 @@ func GetRouter() *gin.Engine {
 
 	// middlewares
 	router.Use(middlewares.GetCorsMiddleware())
-
+	router.Use(middlewares.IPBlacklistMiddleware(config.GetConfig().BlacklistedIps))
 	// routes
 	router.GET("/health", health.GetHealth)
 
