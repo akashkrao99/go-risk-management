@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var inMemoryRisksMap map[string]Risk
+var inMemoryRisksMap map[string]Risk = map[string]Risk{}
 
 type RisksRepository interface {
 	CreateRisk(ctx *gin.Context, risk *Risk) (*Risk, error)
