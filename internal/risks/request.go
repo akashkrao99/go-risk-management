@@ -18,7 +18,7 @@ type CreateRiskReq struct {
 	Status      RiskStatus `json:"status"`
 }
 
-func (r *CreateRiskReq) isValid() error {
+func (r *CreateRiskReq) IsValid() error {
 
 	if len(r.Title) < MIN_TITLE_LEN || len(r.Title) > MAX_TITLE_LEN {
 		return fmt.Errorf("title length must be between %v to %v characters", MIN_TITLE_LEN, MAX_TITLE_LEN)

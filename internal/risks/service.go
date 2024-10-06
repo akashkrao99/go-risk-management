@@ -27,10 +27,14 @@ func NewRisksService() RisksService {
 	}
 }
 
+func NewRisksServiceImplementation(repo RisksRepository) *RisksServiceImplementation {
+    return &RisksServiceImplementation{repository: repo}
+}
+
 func (service *RisksServiceImplementation) CreateRisk(ctx *gin.Context, req *CreateRiskReq) (*CreateRiskRes, error) {
 
 	// validating request
-	err := req.isValid()
+	err := req.IsValid()
 	if err != nil {
 		fmt.Errorf("validation failed for request : %+v", req)
 		return &CreateRiskRes{
@@ -99,7 +103,7 @@ func (service *RisksServiceImplementation) GetRiskById(ctx *gin.Context, id stri
 
 	return &GetRiskByIdRes{
 		ResponseJson: myhttp.ResponseJson{
-			StatusCode: http.StatusCreated,
+			StatusCode: http.StatusOK,
 			Message:    http.StatusText(http.StatusOK),
 		},
 		Risk: risk,
